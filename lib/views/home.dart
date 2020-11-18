@@ -48,6 +48,7 @@ class _HomeState extends State<Home> {
             )
           ],
         ),
+        elevation: 0,
       ),
       body: _loading
           ? Center(

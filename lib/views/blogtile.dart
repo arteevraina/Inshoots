@@ -28,6 +28,9 @@ class BlogTile extends StatelessWidget {
             ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: Image.network(imageUrl)),
+            SizedBox(
+              height: 5,
+            ),
             Text(
               title,
               style: TextStyle(
