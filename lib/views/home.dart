@@ -3,7 +3,8 @@ import 'package:inshoots/helper/data.dart';
 import 'package:inshoots/helper/news.dart';
 import 'package:inshoots/models/article_model.dart';
 import 'package:inshoots/models/category_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:inshoots/views/blogtile.dart';
+import 'package:inshoots/views/category_tile.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -84,7 +85,8 @@ class _HomeState extends State<Home> {
                           return BlogTile(
                               imageUrl: articles[index].urlToImage,
                               title: articles[index].title,
-                              description: articles[index].description);
+                              description: articles[index].description,
+                              url: articles[index].url);
                         },
                       ),
                     )
@@ -92,87 +94,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-    );
-  }
-}
-
-class CategoryTile extends StatelessWidget {
-  final imageUrl, categoryName;
-  CategoryTile({this.imageUrl, this.categoryName});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        margin: EdgeInsets.only(right: 16),
-        child: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                width: 120,
-                height: 80,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              width: 120,
-              height: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                color: Colors.black26,
-              ),
-              child: Text(
-                categoryName,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class BlogTile extends StatelessWidget {
-  final String imageUrl, title, description;
-
-  BlogTile(
-      {@required this.imageUrl,
-      @required this.title,
-      @required this.description});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      child: Column(
-        children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: Image.network(imageUrl)),
-          Text(
-            title,
-            style: TextStyle(
-                fontSize: 17,
-                color: Colors.black87,
-                fontWeight: FontWeight.w600),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Text(
-            description,
-            style: TextStyle(color: Colors.black26),
-          )
-        ],
-      ),
     );
   }
 }
