@@ -1,16 +1,26 @@
 # inshoots
 
-A new Flutter project.
+Inshoots is an Inshorts like News Application that uses [NEWS API](https://newsapi.org/pricing) for the HTTP Requests. It is built using Flutter Framework.
 
 ## Getting Started
+  
+ - **Download Dependencies**
+	 
 
-This project is a starting point for a Flutter application.
+    $ flutter pub get
 
-A few resources to get you started if this is your first Flutter project:
+ - **Start the app**
+ 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+    $ flutter run
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+<div  style="display:inline">
+
+<img  src="https://user-images.githubusercontent.com/43968121/99506866-aede9780-29a8-11eb-9d77-dcf3443fc22c.jpg"  width="30%"  height="600">
+
+<img  src="https://user-images.githubusercontent.com/43968121/99506883-b43be200-29a8-11eb-836e-93f8cef2c1b7.jpg"  width="30%"  height="600">
+
+<img  src="https://user-images.githubusercontent.com/43968121/99506873-b2721e80-29a8-11eb-95af-96d144bc3bf7.jpg"  width="30%"  height="600">
+
+</div>
