@@ -1,8 +1,8 @@
 import 'package:inshoots/models/category_model.dart';
 
 List<CategoryModel> getCategories() {
-  List<CategoryModel> category = new List<CategoryModel>();
-  CategoryModel categoryModel = new CategoryModel();
+  List<CategoryModel> category = [];
+  CategoryModel categoryModel = CategoryModel();
 
   // 1
   categoryModel.categoryName = "Business";

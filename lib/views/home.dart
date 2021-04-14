@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:inshoots/bloc/news_bloc.dart';
 import 'package:inshoots/helper/data.dart';
-import 'package:inshoots/helper/news.dart';
 import 'package:inshoots/models/article_model.dart';
 import 'package:inshoots/models/category_model.dart';
 import 'package:inshoots/views/blogtile.dart';
@@ -12,26 +12,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<CategoryModel> categories = new List<CategoryModel>();
-  List<ArticleModel> articles = new List<ArticleModel>();
+  List<CategoryModel> categories = [];
 
-  bool _loading = true;
+  final newsBloc = NewsBloc();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     categories = getCategories();
-    getNews();
-  }
-
-  getNews() async {
-    News newsObject = new News();
-    await newsObject.getNews();
-    articles = newsObject.news;
-    setState(() {
-      _loading = false;
-    });
+    newsBloc.eventSink.add(NewsAction.Fetch);
   }
 
   @override
@@ -50,51 +39,58 @@ class _HomeState extends State<Home> {
         ),
         elevation: 0,
       ),
-      body: _loading
-          ? Center(
-              child: Container(
-                child: CircularProgressIndicator(),
-              ),
-            )
-          : SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    // Categories
-                    Container(
-                      height: 70,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: categories.length,
-                          itemBuilder: (context, index) {
-                            return CategoryTile(
-                              imageUrl: categories[index].imageUrl,
-                              categoryName: categories[index].categoryName,
-                            );
-                          }),
-                    ),
-                    // Blogs
-                    Container(
-                      padding: EdgeInsets.only(top: 16),
-                      child: ListView.builder(
-                        physics: ClampingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: articles.length,
-                        itemBuilder: (context, index) {
-                          return BlogTile(
-                              imageUrl: articles[index].urlToImage,
-                              title: articles[index].title,
-                              description: articles[index].description,
-                              url: articles[index].url);
-                        },
-                      ),
-                    )
-                  ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              // Categories
+              Container(
+                height: 70,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    return CategoryTile(
+                      imageUrl: categories[index].imageUrl,
+                      categoryName: categories[index].categoryName,
+                    );
+                  },
                 ),
               ),
-            ),
+              // Blogs
+              Container(
+                padding: EdgeInsets.only(top: 16),
+                child: StreamBuilder<List<ArticleModel>>(
+                  stream: newsBloc.newsStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return ListView.builder(
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        var article = snapshot.data[index];
+                        return BlogTile(
+                          imageUrl: article.urlToImage,
+                          title: article.title,
+                          description: article.description,
+                          url: article.url,
+                        );
+                      },
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
